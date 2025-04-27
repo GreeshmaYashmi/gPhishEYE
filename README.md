@@ -26,7 +26,7 @@ The gPhishEYE is a Python script that classifies URLs as either safe or maliciou
 2.  **Clone the Repository (Optional):**
     If you have the code in a Git repository, you can clone it:
     ```bash
-    git clone https://github.com/GreeshmaYashmi/gPhishEYE.git
+    git clone https://github.com/GreeshmaYashmi/gPhishEYE.git &&
     cd gPhishEYE
     ```
 
@@ -44,7 +44,10 @@ The gPhishEYE is a Python script that classifies URLs as either safe or maliciou
    ```bash
    ./flash.sh
    ```
-
+   And visit this URL in your website to acess my website :
+   ```http
+   http://127.0.0.1:5000
+   ```
 ## Usage
 
 1.  **Run the Script:(cli)**
