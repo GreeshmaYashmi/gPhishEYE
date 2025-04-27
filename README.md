@@ -1,4 +1,4 @@
-🕵️‍♂️ gPhishEYE
+# 🕵️‍♂️ gPhishEYE
 
 gPhishEYE is a simple tool to detect malicious URLs using Machine Learning and basic security checks (SSL certificate, DNS lookup, Google Safe Browsing API).
 📦 Installation
