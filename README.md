@@ -78,7 +78,19 @@ The gPhishEYE is a Python script that classifies URLs as either safe or maliciou
         ⚠️  The URL '[http://www.example.com](http://www.example.com)' is classified as: Malicious ⚠️
         ```
 
-## Example Gallery
+## Gallery
+
+<br>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+    <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2016-46-02.png" alt="Screenshot 1" style="margin: 10px; max-width: 45%; height: auto;">
+    <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-04-53.png" alt="Screenshot 2" style="margin: 10px; max-width: 45%; height: auto;">
+    <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-04-53.png" alt="Screenshot 3" style="margin: 10px; max-width: 45%; height: auto;">
+    <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-04-53.png" alt="Screenshot 4" style="margin: 10px; max-width: 45%; height: auto;">
+</div>
+
+<br>
+
 
 Here are a few examples of how the script classifies URLs:
 
