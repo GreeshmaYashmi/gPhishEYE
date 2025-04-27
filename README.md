@@ -3,132 +3,92 @@
 gPhishEYE is a simple tool to detect malicious URLs using Machine Learning and basic security checks (SSL certificate, DNS lookup, Google Safe Browsing API).
 📦 Installation
 
-    Create a virtual environment (recommended):
-    Bash
+## Overview
 
-python3 -m venv myenv
+The gPhishEYE is a Python script that classifies URLs as either safe or malicious. It uses a machine learning model (Random Forest) trained on a dataset of URLs and their corresponding safety labels.  The script extracts features from a given URL, such as SSL certificate validity and DNS lookup status, to make its prediction.
 
-Activate the virtual environment:
+## Features
 
-    On Linux/macOS:
-    Bash
+* **URL Safety Classification:** Classifies URLs as "Safe" or "Malicious".
+* **Machine Learning Powered:** Uses a Random Forest classifier for accurate predictions.
+* **Feature Extraction:** Extracts relevant features from URLs (SSL certificate, DNS lookup).
+* **Data-Driven:** Relies on a CSV dataset (`url_dataset.csv`) for training.
+* **Error Handling:** Includes robust error handling for missing files, empty data, and invalid URLs.
+* **Command-Line Interface:** Simple command-line interface for checking URL safety.
+* **Informative Output:** Provides clear output with emojis and color-coded results (Safe - Green, Malicious - Red).
 
-source myenv/bin/activate
+## Installation
 
-On Windows:
-Bash
+1.  **Prerequisites:**
+    * Python 3.x
+    * pip (Python package installer)
 
-    myenv\Scripts\activate
+2.  **Clone the Repository (Optional):**
+    If you have the code in a Git repository, you can clone it:
+    ```bash
+    git clone <your_repository_url>
+    cd <your_repository_directory>
+    ```
 
-Install required dependencies:
-Bash
+3.  **Install Dependencies:**
+    Install the required Python packages using pip:
+    ```bash
+    pip install pandas scikit-learn
+    ```
 
-    pip install -r requirements.txt
+## Usage
 
-📄 Setup the Dataset
+1.  **Run the Script:**
+    Open a terminal or command prompt and navigate to the directory where you saved the script (e.g., `url_safety_checker.py`).  Then, run the script:
+    ```bash
+    python gphisheye.py
+    ```
 
-Before running, you need a dataset file named url_dataset.csv in the same folder.
+2.  **Enter a URL:**
+    The script will prompt you to enter a URL to check:
+    ```
+    Enter the URL to check:
+    ```
 
-Create a file url_dataset.csv with the following structure:
-Code snippet
+3.  **View the Result:**
+    The script will then display the classification of the URL:
+    * If the URL is classified as safe:
+        ```
+        ✅  The URL '[https://www.google.com](https://www.google.com)' is classified as: Safe ✅
+        ```
+    * If the URL is classified as malicious:
+        ```
+        ⚠️  The URL '[http://www.example.com](http://www.example.com)' is classified as: Malicious ⚠️
+        ```
 
-url,ssl_certificate_valid,dns_lookup,google_safe_browsing,label
-https://www.google.com,1,1,0,safe
-http://phishing-site-example.com,0,0,1,malicious
+## Example Gallery
 
-    ssl_certificate_valid: 1 if valid SSL cert, 0 otherwise.
-    dns_lookup: 1 if domain resolves, 0 otherwise.
-    google_safe_browsing: 1 if flagged as malicious, 0 otherwise.
-    label: safe or malicious.
+Here are a few examples of how the script classifies URLs:
 
-✅ You need at least 10-15 URLs to train a basic model.
+* **Safe URL:**
+    ```bash
+    Enter the URL to check: [https://www.google.com](https://www.google.com)
+    ```
+    Output:
+    ```
+    ✅  The URL '[https://www.google.com](https://www.google.com)' is classified as: Safe ✅
+    ```
 
-🚀 How to Run
+* **Malicious URL:**
+    ```bash
+    Enter the URL to check: [http://malware.example](http://malware.example)
+    ```
+    Output:
+    ```
+    ⚠️  The URL '[http://malware.example](http://malware.example)' is classified as: Malicious ⚠️
+    ```
 
-    Activate the virtual environment (if not already):
-    Bash
+## Credits
 
-source myenv/bin/activate
+* **Author:** Greeshma Yashmi
+* **License:** [MIT License]
 
-Run the gPhishEYE tool:
-Bash
+## Contributions
 
-    python3 gphisheye.py
-
-Usage:
-
-When prompted, paste one or more URLs separated by commas.
-
-Example:
-
-🔗 Paste your URLs (comma-separated) or type 'exit' to quit.
-👉 https://google.com, http://some-malicious-site.com
-
-Results:
-
-    The tool checks SSL, DNS, and Safe Browsing status.
-    It predicts if the URL is Safe or Malicious.
-    It also automatically appends new checked URLs back into url_dataset.csv for future training.
-
-📜 Requirements
-
-    Python 3.8+
-    Libraries:
-        pandas
-        scikit-learn
-        requests
-
-These are already listed in requirements.txt.
-
-If missing, you can manually install:
-Bash
-
-pip install pandas scikit-learn requests
-
-Or simply:
-Bash
-
-pip install -r requirements.txt
-
-🔑 Google Safe Browsing API
-
-To fully utilize Safe Browsing detection:
-
-    Replace the API_KEY variable inside gphisheye.py with your valid Google API key.
-    Without the API key, Safe Browsing checks may fail.
-
-👉 How to get a Google API key
-
-⚠️ Common Problems
-Issue	Solution
-CSV file not found	Create a valid url_dataset.csv.
-n_samples=0 error	You need to add more URLs into the CSV to train the model.
-test_size=0.2 error with few samples	Add more data points (>5 URLs minimum).
-name 'X' is not defined	Make sure your dataset exists before prediction.
-
-🎯 Quick Commands Summary
-Bash
-
-# Clone the repo
-git clone https://github.com/yourusername/gPhishEYE.git
-cd gPhishEYE
-
-# Create and activate virtual environment
-python3 -m venv myenv
-source myenv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the tool
-python3 gphisheye.py
-
-👨‍💻 Contribution
-
-PRs are welcome!
-Found a bug or have ideas to improve? Feel free to open an issue or submit a pull request.
-
-📜 License
-
-This project is for educational purposes only.
-Use it responsibly! 🚀
+JEJO .J : Front-end & model training 
+[Add any contribution guidelines here if you want others to contribute to your project.]
