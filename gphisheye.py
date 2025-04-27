@@ -91,6 +91,7 @@ def load_and_train_model():
 
     if dataset.empty:
         print("Dataset is empty. Please add URLs to train the model.")
+        print("⚠️ Warning: New URLs will be treated as malicious until model is trained!")
         model = None
         X = None
     else:
@@ -153,13 +154,11 @@ if __name__ == "__main__":
 
         for url in url_list:
             try:
-                # If model not trained yet, allow feature extraction and add to CSV
                 if model is None:
                     features = extract_features(url)
-                    prediction = "Safe"  # Assume safe initially
-                    print(f"{url} --> {prediction} (Default, since model not ready)")
+                    prediction = "Malicious"  # Assume unknown URLs are malicious
+                    print(f"{url} --> {prediction} (Model not ready)")
                     append_to_csv(url, prediction, features)
-
                 else:
                     prediction, features = predict_url(url)
                     print(f"{url} --> {prediction}")
