@@ -82,11 +82,8 @@ The gPhishEYE is a Python script that classifies URLs as either safe or maliciou
 <br>
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
     <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2016-46-02.png" alt="Screenshot 1" style="margin: 10px; max-width: 45%; height: auto;">
+   <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-05-42.png" alt="Screenshot 6" style="margin: 10px; max-width: 45%; height: auto;">
     <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-04-53.png" alt="Screenshot 2" style="margin: 10px; max-width: 45%; height: auto;">
-    <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-04-53.png" alt="Screenshot 3" style="margin: 10px; max-width: 45%; height: auto;">
-    <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-04-53.png" alt="Screenshot 4" style="margin: 10px; max-width: 45%; height: auto;">
-    <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-05-42.png" alt="Screenshot 5" style="margin: 10px; max-width: 45%; height: auto;">
-    <img src="https://github.com/GreeshmaYashmi/gPhishEYE/blob/main/images/Screenshot%20From%202025-04-27%2017-05-42.png" alt="Screenshot 6" style="margin: 10px; max-width: 45%; height: auto;">
 
 </div>
 
