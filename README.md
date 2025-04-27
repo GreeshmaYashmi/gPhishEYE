@@ -26,8 +26,8 @@ The gPhishEYE is a Python script that classifies URLs as either safe or maliciou
 2.  **Clone the Repository (Optional):**
     If you have the code in a Git repository, you can clone it:
     ```bash
-    git clone <your_repository_url>
-    cd <your_repository_directory>
+    git clone https://github.com/GreeshmaYashmi/gPhishEYE.git
+    cd gPhishEYE
     ```
 
 3.  **Install Dependencies:**
@@ -36,21 +36,35 @@ The gPhishEYE is a Python script that classifies URLs as either safe or maliciou
     pip install pandas scikit-learn
     ```
 
+4. **Install front-end:**
+   Install flask automation script:
+   ```bash
+   chmod +x flash.sh
+   ```
+   ```bash
+   ./flash.sh
+   ```
+
 ## Usage
 
-1.  **Run the Script:**
+1.  **Run the Script:(cli)**
     Open a terminal or command prompt and navigate to the directory where you saved the script (e.g., `url_safety_checker.py`).  Then, run the script:
     ```bash
     python gphisheye.py
     ```
+    Open a terminal and navigate to the working dir then :
+    ```bash
+    python3 app.py
+    ```
+    for website !
 
-2.  **Enter a URL:**
+3.  **Enter a URL:**
     The script will prompt you to enter a URL to check:
     ```
     Enter the URL to check:
     ```
 
-3.  **View the Result:**
+4.  **View the Result:**
     The script will then display the classification of the URL:
     * If the URL is classified as safe:
         ```
