@@ -6,13 +6,22 @@ from urllib.parse import urlparse
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
-from sklearn.preprocessing import LabelEncoder  # Import LabelEncoder
+from sklearn.preprocessing import LabelEncoder
 import os
+import warnings
+
+# Suppress warnings for cleaner output
+warnings.filterwarnings("ignore")
 
 # Google Safe Browsing API Key (Insert your own key)
 API_KEY = 'AIzaSyD-8LxpF5g4CdDYs4GWxBxdoz_g7aBVPmU'
 
-# Feature Extraction Functions (simplified)
+# Initialize model and dataset globals
+model = None
+X = None
+label_encoder = LabelEncoder()
+
+# Feature Extraction Functions
 def ssl_certificate_valid(url):
     try:
         hostname = urlparse(url).netloc
@@ -21,17 +30,17 @@ def ssl_certificate_valid(url):
             s.settimeout(3.0)
             s.connect((hostname, 443))
             cert = s.getpeercert()
-            return 1  # SSL certificate valid
+            return 1
     except Exception:
-        return 0  # Invalid SSL certificate
+        return 0
 
 def dns_lookup(url):
     try:
         domain = urlparse(url).netloc
         socket.gethostbyname(domain)
-        return 1  # DNS lookup successful
+        return 1
     except:
-        return 0  # DNS lookup failed
+        return 0
 
 def google_safe_browsing_check(url):
     api_url = f"https://safebrowsing.googleapis.com/v4/threatMatches:find?key={API_KEY}"
@@ -44,22 +53,19 @@ def google_safe_browsing_check(url):
             "threatTypes": ["MALWARE", "SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "POTENTIALLY_HARMFUL_APPLICATION"],
             "platformTypes": ["ANY_PLATFORM"],
             "threatEntryTypes": ["URL"],
-            "threatEntries": [
-                {"url": url}
-            ]
+            "threatEntries": [{"url": url}]
         }
     }
     try:
         response = requests.post(api_url, json=payload)
         if response.status_code == 200:
             threats = response.json().get('matches')
-            return 1 if threats else 0  # Return 1 if malicious, 0 if not
+            return 1 if threats else 0
         else:
-            return 0  # Google Safe Browsing check failed
+            return 0
     except requests.exceptions.RequestException:
-        return 0  # Network error
+        return 0
 
-# Function to extract features from URL
 def extract_features(url):
     return [
         ssl_certificate_valid(url),
@@ -67,62 +73,68 @@ def extract_features(url):
         google_safe_browsing_check(url)
     ]
 
-# Load dataset and check if file exists
-if not os.path.exists('url_dataset.csv'):
-    print("CSV file not found, please create it first.")
-else:
+# Function to load dataset and train model
+def load_and_train_model():
+    global model, X
+
+    if not os.path.exists('url_dataset.csv'):
+        print("CSV file not found. Creating new one...")
+        with open('url_dataset.csv', 'w') as f:
+            f.write('url,ssl_certificate_valid,dns_lookup,google_safe_browsing,label\n')
+        print("Empty CSV created. Please start adding URLs.")
+
     dataset = pd.read_csv('url_dataset.csv')
 
-    # Ensure dataset has required columns
     expected_columns = ['url', 'ssl_certificate_valid', 'dns_lookup', 'google_safe_browsing', 'label']
     if any(col not in dataset.columns for col in expected_columns):
-        raise ValueError("CSV file is missing required columns")
+        raise ValueError("CSV file is missing required columns.")
 
-    # Extract features (X) and labels (y)
-    X = dataset[['ssl_certificate_valid', 'dns_lookup', 'google_safe_browsing']]
-    y = dataset['label']
+    if dataset.empty:
+        print("Dataset is empty. Please add URLs to train the model.")
+        model = None
+        X = None
+    else:
+        X = dataset[['ssl_certificate_valid', 'dns_lookup', 'google_safe_browsing']]
+        y = dataset['label']
+        y = label_encoder.fit_transform(y)
 
-    # Label encoding for 'Safe' and 'Malicious' labels
-    label_encoder = LabelEncoder()
-    y = label_encoder.fit_transform(y)  # Convert 'Safe' -> 0, 'Malicious' -> 1
+        X = X.apply(pd.to_numeric, errors='coerce')
 
-    # Ensure that all values in X are numeric
-    X = X.apply(pd.to_numeric, errors='coerce')
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Split data into training and testing
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        model = RandomForestClassifier(n_estimators=100, random_state=42)
+        model.fit(X_train, y_train)
 
-    # Train Random Forest Classifier
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        print("\n📈 Model trained successfully!")
+        print("Accuracy:", accuracy_score(y_test, y_pred))
+        print(classification_report(y_test, y_pred))
 
-    # Evaluate the model
-    y_pred = model.predict(X_test)
-    print("Accuracy:", accuracy_score(y_test, y_pred))
-    print(classification_report(y_test, y_pred))
-
-# Function to predict whether a new URL is safe or malicious
 def predict_url(url):
+    if model is None or X is None:
+        raise Exception("Model not trained yet. Please add URLs first.")
+
     features = extract_features(url)
     features_df = pd.DataFrame([features], columns=X.columns)
     prediction = model.predict(features_df)[0]
-    # Convert prediction back to 'Safe'/'Malicious'
     return "Malicious" if prediction == 1 else "Safe", features
 
-# Function to append new URL to CSV with prediction
 def append_to_csv(url, prediction, features):
-    new_data = {'url': url, 
-                'ssl_certificate_valid': features[0], 
-                'dns_lookup': features[1], 
-                'google_safe_browsing': features[2], 
-                'label': prediction}
+    new_data = {
+        'url': url,
+        'ssl_certificate_valid': features[0],
+        'dns_lookup': features[1],
+        'google_safe_browsing': features[2],
+        'label': prediction
+    }
     new_df = pd.DataFrame([new_data])
-    
-    # Append to the existing CSV (or create if doesn't exist)
-    new_df.to_csv('url_dataset.csv', mode='a', header=False, index=False)
+    file_exists = os.path.isfile('url_dataset.csv')
+    new_df.to_csv('url_dataset.csv', mode='a', header=not file_exists, index=False)
 
-# Example of interactive input and prediction
+# Main interactive loop
 if __name__ == "__main__":
+    load_and_train_model()
+
     while True:
         print("\n🔗 Paste your URLs (comma-separated) or type 'exit' to quit.")
         urls_input = input("👉 ")
@@ -131,18 +143,30 @@ if __name__ == "__main__":
             print("Goodbye! 👋")
             break
 
-        # Split the input into multiple URLs
         url_list = [url.strip() for url in urls_input.split(',') if url.strip()]
 
+        if not url_list:
+            print("⚠️ No URLs entered. Please try again.")
+            continue
+
         print("\n🔎 Checking URLs...\n")
-        
+
         for url in url_list:
             try:
-                prediction, features = predict_url(url)
-                print(f"{url} --> {prediction}")
-                
-                # Append the new URL and prediction to the CSV
-                append_to_csv(url, prediction, features)
-                
+                # If model not trained yet, allow feature extraction and add to CSV
+                if model is None:
+                    features = extract_features(url)
+                    prediction = "Safe"  # Assume safe initially
+                    print(f"{url} --> {prediction} (Default, since model not ready)")
+                    append_to_csv(url, prediction, features)
+
+                else:
+                    prediction, features = predict_url(url)
+                    print(f"{url} --> {prediction}")
+                    append_to_csv(url, prediction, features)
+
             except Exception as e:
                 print(f"⚠️ Error checking {url}: {e}")
+
+        # After adding new URLs, reload model if needed
+        load_and_train_model()
