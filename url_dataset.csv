@@ -95,3 +95,13 @@ http://www.account-security-alert.com,0,0,1.0,1.0,Malicious
 http://www.we-need-your-information.com,0,0,1.0,1.0,Malicious
 http://www.your-account-will-be-closed.com,0,0,1.0,1.0,Malicious
 https://127.0.0.1/,0,1,,,Malicious
+http://127.0.0.1/,0,1,,,Malicious
+https://google.com/,1,1,,,Safe
+http://127.0.0.1:8080,0,0,,,Malicious
+https://campaigns-stamp-quote-receive.trycloudflare.com,0,0,,,Malicious
+https://vote-for-the-best-social-media,0,0,,,Malicious
+https://b7kakwrwqg.loclx.io,1,1,,,Malicious
+https://b7ewfhw99.loclx.io,1,1,,,Malicious
+https://make-your-facebook-secured-and-free-from-hackers@is.gd/OxCzln,0,0,,,Malicious
+https://is.gd/OxCzln,0,1,,,Malicious
+https://chatgpt.com/c/681c835f-7ca4-8005-b5a7-491ed8a21392,1,1,,,Safe
