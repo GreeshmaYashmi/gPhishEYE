@@ -116,4 +116,3 @@ Here are a few examples of how the script classifies URLs:
 ## Contributions
 
 JEJO .J : Front-end & model training 
-[Add any contribution guidelines here if you want others to contribute to your project.]
